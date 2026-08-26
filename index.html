@@ -1,1 +1,517 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANONIMO MX - DESCARGAS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            font-family: 'Orbitron', sans-serif; 
+            background: #0a0a0f; 
+            color: #fff;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .particle { position: fixed; width: 2px; height: 2px; background: #00ff88; border-radius: 50%; animation: float 8s infinite; z-index: 0; opacity: 0.4; pointer-events: none; }
+        @keyframes float { 
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; } 
+            50% { opacity: 0.6; } 
+            100% { transform: translateY(-100vh) translateX(30px); opacity: 0; } 
+        }
+        
+        .top-bar { 
+            border-bottom: 1px solid rgba(0,255,136,0.2); 
+            background: rgba(10,10,15,0.8); 
+            backdrop-filter: blur(10px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+        .header-container { 
+            max-width: 1200px; 
+            margin: auto; 
+            padding: 12px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-size: 1.2rem; 
+            font-weight: 900; 
+        }
+        .logo i { color: #00ff88; }
+        .glow-text { 
+            color: #00ff88; 
+            text-shadow: 0 0 15px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4); 
+        }
+        .menu-btn { 
+            background: none; 
+            border: none; 
+            color: rgba(255,255,255,0.7); 
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: color 0.3s;
+        }
+        .menu-btn:hover { color: #00ff88; }
+        
+        .hero { 
+            position: relative; 
+            z-index: 1; 
+            max-width: 800px; 
+            margin: auto; 
+            padding: 40px 20px 60px; 
+            text-align: center; 
+        }
+        .badge-online { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            padding: 8px 16px; 
+            border-radius: 50px; 
+            border: 1px solid rgba(0,255,136,0.3); 
+            background: rgba(0,0,0,0.4); 
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            margin-bottom: 30px; 
+        }
+        .badge-online .dot { 
+            width: 8px; 
+            height: 8px; 
+            background: #00ff88; 
+            border-radius: 50%; 
+            animation: pulse 2s infinite; 
+        }
+        @keyframes pulse { 
+            0%, 100% { opacity: 1; } 
+            50% { opacity: 0.3; } 
+        }
+        
+        .hero h1 { 
+            font-size: clamp(2.5rem, 6vw, 4rem); 
+            font-weight: 900; 
+            margin-bottom: 16px; 
+        }
+        .hero .subtitulo { 
+            color: rgba(255,255,255,0.6); 
+            margin-bottom: 30px; 
+            font-size: 1rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            flex-wrap: wrap;
+        }
+        
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+            gap: 16px; 
+            max-width: 450px; 
+            margin: 0 auto 30px; 
+        }
+        .stat-box { 
+            border: 1px solid rgba(0,255,136,0.3); 
+            border-radius: 16px; 
+            background: rgba(0,0,0,0.4); 
+            backdrop-filter: blur(5px); 
+            padding: 16px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 12px; 
+            transition: all 0.3s ease;
+        }
+        .stat-box:hover { 
+            border-color: #00ff88; 
+            box-shadow: 0 0 15px rgba(0,255,136,0.1); 
+            transform: translateY(-2px);
+        }
+        .stat-box i { color: #00ff88; width: 22px; height: 22px; font-size: 1.3rem; }
+        .stat-content { text-align: left; }
+        .stat-num { 
+            font-size: 1.5rem; 
+            font-weight: 900; 
+            color: #00ff88; 
+            display: block;
+            font-variant-numeric: tabular-nums;
+        }
+        .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+        
+        .soporte-box { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            border: 1px solid rgba(0,255,136,0.3); 
+            border-radius: 16px; 
+            background: rgba(0,0,0,0.4); 
+            padding: 12px 24px; 
+            margin-bottom: 20px; 
+        }
+        .soporte-box i { color: #00ff88; width: 16px; height: 16px; }
+        
+        .btn-main, .btn-second { 
+            width: 100%; 
+            max-width: 350px; 
+            margin: 0 auto 16px; 
+            font-weight: 900; 
+            padding: 16px; 
+            border-radius: 16px; 
+            border: none; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            cursor: pointer; 
+            text-decoration: none; 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 1rem; 
+            transition: all 0.3s ease;
+        }
+        .btn-main { 
+            background: #00ff88; 
+            color: #0a0a0f; 
+            box-shadow: 0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.1); 
+        }
+        .btn-main:hover { transform: scale(1.05); }
+        .btn-second { 
+            background: transparent; 
+            color: #00ff88; 
+            border: 2px solid rgba(0,255,136,0.5); 
+        }
+        .btn-second:hover { background: rgba(0,255,136,0.1); }
+        
+        .section { 
+            padding: 60px 20px; 
+            max-width: 1300px; 
+            margin: auto; 
+            position: relative; 
+            z-index: 1; 
+        }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .badge-section { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            padding: 8px 16px; 
+            border-radius: 50px; 
+            border: 1px solid rgba(0,255,136,0.3); 
+            background: rgba(0,0,0,0.4); 
+            font-size: 0.75rem; 
+            font-weight: bold; 
+            margin-bottom: 16px; 
+        }
+        .section h2 { 
+            font-size: clamp(1.8rem, 5vw, 2.5rem); 
+            font-weight: 900; 
+        }
+        .section h2 .highlight { color: #00ff88; }
+        
+        .products-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 20px; 
+        }
+        .product-card { 
+            border: 1px solid rgba(0,255,136,0.2); 
+            border-radius: 16px; 
+            background: rgba(0,0,0,0.4); 
+            backdrop-filter: blur(10px); 
+            padding: 24px; 
+            position: relative; 
+            transition: all 0.3s ease; 
+        }
+        .product-card:hover { 
+            border-color: #00ff88; 
+            transform: translateY(-4px); 
+            box-shadow: 0 0 25px rgba(0,255,136,0.15); 
+        }
+        .tag { 
+            font-size: 0.65rem; 
+            padding: 4px 12px; 
+            border-radius: 20px; 
+            font-weight: 900; 
+            display: inline-block; 
+            margin-bottom: 12px; 
+        }
+        .tag-apk { background: #00ff88; color: #000; }
+        .tag-free { background: #fff; color: #000; }
+        .product-title { 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            margin-bottom: 10px; 
+        }
+        .product-desc { 
+            font-size: 0.8rem; 
+            color: #b0ffcb; 
+            line-height: 1.5; 
+            margin-bottom: 12px; 
+            min-height: 36px; 
+        }
+        .product-note { 
+            font-size: 0.7rem; 
+            color: rgba(255,255,255,0.5); 
+            background: rgba(255,255,255,0.05); 
+            padding: 10px; 
+            border-radius: 8px; 
+            margin-bottom: 16px; 
+        }
+        .price-box { 
+            background: #000; 
+            border: 1px dashed rgba(0,255,136,0.6); 
+            border-radius: 8px; 
+            padding: 12px; 
+            text-align: center; 
+            margin-bottom: 16px; 
+        }
+        .price-mxn { font-weight: 900; font-size: 0.9rem; color: #00ff88; }
+        .price-usd { 
+            font-size: 0.75rem; 
+            color: rgba(255,255,255,0.7); 
+            margin-top: 4px; 
+            display: block; 
+        }
+        .product-actions { display: flex; gap: 8px; }
+        .btn-comprar { 
+            flex: 1; 
+            background: linear-gradient(90deg, #00ff88, #fff); 
+            color: #000; 
+            font-weight: 900; 
+            padding: 14px; 
+            border-radius: 10px; 
+            border: none; 
+            text-decoration: none; 
+            text-align: center; 
+            font-family: 'Orbitron', sans-serif; 
+            transition: all 0.3s ease; 
+            cursor: pointer;
+        }
+        .btn-comprar:hover { 
+            transform: scale(1.03); 
+            box-shadow: 0 0 20px rgba(0,255,136,0.3); 
+        }
+        
+        footer { 
+            border-top: 1px solid rgba(0,255,136,0.2); 
+            background: rgba(10,10,15,0.8); 
+            backdrop-filter: blur(10px); 
+            padding: 40px 20px; 
+            margin-top: 60px; 
+            position: relative; 
+            z-index: 1; 
+        }
+        .footer-content { max-width: 1200px; margin: auto; text-align: center; }
+        .footer-logo { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            font-size: 1.3rem; 
+            font-weight: 900; 
+            margin-bottom: 12px; 
+        }
+        .footer-logo i { color: #00ff88; }
+        .footer-text { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 24px; }
+        .version-tag { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 8px; }
+        
+        @media(max-width: 768px) {
+            .products-grid { grid-template-columns: 1fr; }
+            .stats-grid { gap: 10px; }
+            .hero { padding: 30px 15px 40px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+    
+    <div class="top-bar">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span><span class="glow-text">ANONIMO MX</span> DESCARGAS</span>
+            </div>
+            <button class="menu-btn" aria-label="Menú">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="hero">
+        <div class="badge-online">
+            <div class="dot"></div>
+            <span>ONLINE</span>
+        </div>
+        
+        <h1><span class="glow-text">ANONIMO MX</span> DESCARGAS</h1>
+        <p class="subtitulo">DESCARGAS DE ANONIMO MX</p>
+        
+        <div class="stats-grid">
+            <div class="stat-box">
+                <i class="fas fa-eye"></i>
+                <div class="stat-content">
+                    <span class="stat-num" id="vista-contador">0</span>
+                    <span class="stat-label">VISTAS</span>
+                </div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-download"></i>
+                <div class="stat-content">
+                    <span class="stat-num" id="descarga-contador">0</span>
+                    <span class="stat-label">DESCARGAS</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="soporte-box">
+            <i class="fas fa-wifi"></i>
+            <span>24/7 Soporte</span>
+        </div>
+        
+        <a href="#productos" class="btn-main">
+            <i class="fas fa-bolt"></i>
+            VER ENLACES DIRECTOS
+        </a>
+        <!-- MANTENIDO: Botón de canal en la sección principal -->
+        <a href="https://whatsapp.com/channel/0029Vb7zPX9AYlUPsvjzno2z" class="btn-second" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp"></i>
+            VER CANAL DE WHATSAPP
+        </a>
+    </div>
+    
+    <div class="section" id="productos">
+        <div class="section-header">
+            <div class="badge-section">
+                <i class="fas fa-box"></i>
+                <span>TUS ENLACES DIRECTOS</span>
+            </div>
+            <h2>ENLACES <span class="highlight">DIRECTOS</span></h2>
+        </div>
+        
+        <div class="products-grid">
+            <!-- Producto 1 -->
+            <div class="product-card">
+                <span class="tag tag-apk">APK MOD</span>
+                <h3 class="product-title">DRIPCLIENT CRACKEAD</h3>
+                <p class="product-desc">Sin Duración - Versión completa</p>
+                <div class="product-note">Archivo seguro y verificado</div>
+                <div class="price-box">
+                    <div class="price-mxn">GRATIS 🇲🇽</div>
+                    <div class="price-usd">FREE 🇺🇸</div>
+                </div>
+                <div class="product-actions">
+                    <a href="https://www.mediafire.com/file/hyk574tsmxi7yo5/%25E2%2598%25A3%25EF%25B8%258F_%25E3%2580%2590_DRIPCLIENT_CRACKEADO_%25E2%2598%25A3%25EF%25B8%258F_%25E2%259E%2594_SENSI_HANZX_PRIVATE_%25F0%259F%2587%25A7%25F0%259F%2587%25B7.apk/file" 
+                       class="btn-comprar" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       onclick="incrementarDescarga(event)">
+                        RECLAMAR
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Producto 2 -->
+            <div class="product-card">
+                <span class="tag tag-free">APK</span>
+                <h3 class="product-title">NetCheats</h3>
+                <p class="product-desc">Sin Duración - Funciones completas</p>
+                <div class="product-note">Archivo seguro y verificado</div>
+                <div class="price-box">
+                    <div class="price-mxn">GRATIS 🇲🇽</div>
+                    <div class="price-usd">FREE 🇺🇸</div>
+                </div>
+                <div class="product-actions">
+                    <a href="https://www.mediafire.com/file/ime76go7lk1yo3b/Hanzx_Baneado_srt_%25F0%259F%259A%25AB_-_NetCheats_V5.apk/file" 
+                       class="btn-comprar" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       onclick="incrementarDescarga(event)">
+                        RECLAMAR
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-crown"></i>
+                <span><span class="glow-text">ANONIMO MX</span> DESCARGAS</span>
+            </div>
+            <p class="footer-text">Plataforma Oficial - Todos los derechos reservados 2026</p>
+            <div class="version-tag">Versión: 2.0</div>
+        </div>
+    </footer>
+    
+    <!-- ELIMINADO: Botón flotante inferior -->
+    
+    <script>
+        // Contadores persistentes y seguros
+        let vistas = 0;
+        let descargas = 0;
+        
+        try {
+            vistas = parseInt(localStorage.getItem('hz_vistas') || '0') + 1;
+            descargas = parseInt(localStorage.getItem('hz_descargas') || '0');
+        } catch (e) {
+            console.warn('LocalStorage no disponible');
+        }
+        
+        const vistaEl = document.getElementById('vista-contador');
+        const descargaEl = document.getElementById('descarga-contador');
+        
+        vistaEl.textContent = vistas;
+        descargaEl.textContent = descargas;
+        
+        try {
+            localStorage.setItem('hz_vistas', vistas.toString());
+        } catch (e) {}
+        
+        function incrementarDescarga(e) {
+            e.preventDefault();
+            descargas++;
+            descargaEl.textContent = descargas;
+            try {
+                localStorage.setItem('hz_descargas', descargas.toString());
+            } catch (err) {}
+            
+            setTimeout(() => {
+                window.open(e.target.href, '_blank');
+            }, 100);
+        }
+        
+        // Partículas optimizadas
+        const particlesDiv = document.getElementById('particles');
+        for(let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            particlesDiv.appendChild(particle);
+        }
+        
+        // Scroll suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
